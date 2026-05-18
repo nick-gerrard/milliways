@@ -11,7 +11,7 @@
     {#if recipe.tags}
         <div class="flex justify-between gap-2 lg:gap-8 mx-auto">
             {#each recipe.tags as tag}
-                <span class="px-4 py-2 rounded-full bg-green-500 text-white border-green-600">{tag.name}</span>
+                <span class="px-4 py-2 rounded-full bg-green-600 text-white border-green-700">{tag.name}</span>
 {/each}
         </div>
 {/if}
