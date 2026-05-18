@@ -1,7 +1,5 @@
-import os
 from sqlmodel import SQLModel, Session, create_engine
-
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./milliways.db")
+from .config import DATABASE_URL
 
 connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 engine = create_engine(DATABASE_URL, connect_args=connect_args)

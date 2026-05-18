@@ -6,6 +6,7 @@ __pycache__/
 venv/
 .env
 *.env
+backend/.env
 
 # SvelteKit
 frontend/.svelte-kit/
