@@ -2,6 +2,7 @@
     import { PUBLIC_API_URL } from "$env/static/public";
     import RecipeCard from "$lib/components/RecipeCard.svelte";
     import RecipeDetail from "$lib/components/RecipeDetail.svelte";
+    import Button from "$lib/components/Button.svelte";
     import type { Recipe, RecipeDetail as RecipeDetailType } from "$lib/types";
 
     let { data } = $props();
@@ -48,7 +49,7 @@
     class:translate-y-full={!selectedRecipe}
     class:translate-y-0={!!selectedRecipe}>
       {#if selectedRecipe}
-          <button onclick={() => selectedRecipe = null} class="mb-4 mt-4 text-white/50 text-xl">✕ Close</button>
+          <Button variant="ghost" onclick={() => selectedRecipe = null} class="mb-4 mt-4">✕ Close</Button>
           <RecipeDetail recipe={selectedRecipe} />
       {/if}
   </div>
