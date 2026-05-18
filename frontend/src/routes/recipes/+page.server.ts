@@ -1,7 +1,7 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import { INTERNAL_API_URL } from '$env/dynamic/private';
 
 export const load = async () => {
-  const res = await fetch(`${PUBLIC_API_URL}/recipes`);
+  const res = await fetch(`${INTERNAL_API_URL}/recipes`);
   const recipes = await res.json();
   return { recipes };
 };

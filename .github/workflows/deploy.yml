@@ -25,6 +25,7 @@ jobs:
         working-directory: frontend
         env:
           PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
+          INTERNAL_API_URL: ${{ secrets.INTERNAL_API_URL }}
         run: npm run build
 
       - name: Set up SSH
