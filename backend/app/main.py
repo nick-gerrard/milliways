@@ -8,7 +8,7 @@ from authlib.integrations.starlette_client import OAuth
 from .database import get_session
 from .models import Recipe, RecipeIngredient, User
 from .schemas import RecipeDetail
-from .config import FRONTEND_URL, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from .config import FRONTEND_URL, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CALLBACK_URL
 from .deps import get_current_user
 
 app = FastAPI(title="Milliways API")
@@ -39,8 +39,7 @@ def health():
 
 @app.get("/auth/login")
 async def login(request: Request):
-    redirect_uri = request.url_for("auth_callback")
-    return await oauth.google.authorize_redirect(request, redirect_uri)
+    return await oauth.google.authorize_redirect(request, CALLBACK_URL)
 
 
 @app.get("/auth/callback")
