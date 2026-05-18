@@ -57,8 +57,8 @@
         {#each links as link}
             <li
                 class={page.url.pathname === link.href
-                    ? "text-fuchsia-800 font-bold border border-white/20 rounded-full shadow-lg p-2 backdrop-blur-lg"
-                    : "text-black"}
+                    ? "text-fuchsia-400 font-bold border border-white/20 rounded-full shadow-lg p-2 backdrop-blur-lg"
+                    : "text-white"}
             >
                 <a href={link.href}>{link.label}</a>
             </li>

@@ -1,0 +1,15 @@
+[Unit]
+Description=Milliways Frontend
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/home/deploy/milliways/frontend/build
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+ExecStart=/usr/bin/node index.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

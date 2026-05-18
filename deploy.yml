@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+
+      - uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 22
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        env:
+          PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
+        run: npm run build
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.LINODEDEPLOY }}
+
+      - name: Add server to known hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sync frontend build
+        run: |
+          rsync -av --delete frontend/build/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/deploy/milliways/frontend/build/
+
+      - name: Deploy backend and restart services
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'bash -e -l -c "
+            cd ~/milliways &&
+            git pull &&
+            cd backend &&
+            uv sync &&
+            uv run alembic upgrade head &&
+            sudo systemctl restart milliways-api &&
+            sudo systemctl restart milliways-frontend
+          "'

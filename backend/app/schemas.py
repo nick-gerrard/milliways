@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel
+from datetime import datetime
 
 
 class IngredientInput(SQLModel):
@@ -41,6 +42,46 @@ class RecipeUpdate(SQLModel):
     ingredients: list[IngredientInput] | None = None
     steps: list[StepInput] | None = None
     tags: list[str] | None = None
+
+
+class IngredientDetail(SQLModel):
+    name: str
+
+
+class RecipeIngredientDetail(SQLModel):
+    id: int
+    quantity: float
+    unit: str
+    notes: str | None
+    ingredient: IngredientDetail
+
+
+class RecipeStepDetail(SQLModel):
+    id: int
+    order: int
+    instruction: str
+
+
+class TagDetail(SQLModel):
+    id: int
+    name: str
+
+
+class RecipeDetail(SQLModel):
+    id: int
+    name: str
+    description: str | None
+    servings: int
+    prep_time_minutes: int | None
+    cook_time_minutes: int | None
+    source_url: str | None
+    author: str | None
+    image_url: str | None
+    is_public: bool
+    created_at: datetime
+    steps: list[RecipeStepDetail]
+    tags: list[TagDetail]
+    ingredients: list[RecipeIngredientDetail]
 
 
 class ShoppingListRequest(SQLModel):

@@ -35,7 +35,7 @@ class RecipeIngredient(SQLModel, table=True):
     unit: str
     notes: str | None = None
     recipe: "Recipe" = Relationship(back_populates="ingredients")
-
+    ingredient: "Ingredient" = Relationship()
 
 class RecipeStep(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

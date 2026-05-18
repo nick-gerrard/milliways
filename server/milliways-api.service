@@ -1,0 +1,14 @@
+[Unit]
+Description=Milliways API
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/home/deploy/milliways/backend
+Environment=DATABASE_URL=sqlite:////home/deploy/milliways/backend/milliways.db
+ExecStart=/home/deploy/milliways/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
