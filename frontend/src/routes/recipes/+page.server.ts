@@ -1,7 +1,8 @@
-import { INTERNAL_API_URL } from '$env/dynamic/private';
+import { env } from '$env/dynamic/private';
 
 export const load = async () => {
-  const res = await fetch(`${INTERNAL_API_URL}/recipes`);
+  const apiUrl = env.INTERNAL_API_URL ?? "http://127.0.0.1:8002";
+  const res = await fetch(`${apiUrl}/recipes`);
   const recipes = await res.json();
   return { recipes };
 };
