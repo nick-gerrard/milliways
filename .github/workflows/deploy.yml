@@ -38,7 +38,7 @@ jobs:
       - name: Sync frontend build
         run: |
           rsync -av --delete frontend/build/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/deploy/milliways/frontend/build/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/milliways/frontend/build/
 
       - name: Deploy backend and restart services
         run: |
