@@ -19,6 +19,13 @@ frontend/.env.*
 *.sqlite
 *.db
 
+# Alembic
+backend/alembic/versions/__pycache__/
+
+# Uploads / parsed files
+uploads/
+*.pdf
+
 # OS
 .DS_Store
 Thumbs.db
