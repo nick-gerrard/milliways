@@ -61,6 +61,7 @@
             />
         </svg>
     </button>
+    <div>
     <ul class="hidden md:flex items-center justify-center gap-8 px-8">
         {#each links as link}
             <li
@@ -71,6 +72,11 @@
                 <a href={link.href}>{link.label}</a>
             </li>
         {/each}
+    </ul>
+
+    </div>
+    <div>
+        <ul>
         <li>
             {#if user}
                 <span class="text-white/60 text-sm mr-2">{user.name}</span>
@@ -83,7 +89,9 @@
                 </a>
             {/if}
         </li>
-    </ul>
+
+        </ul>
+    </div>
 </nav>
 {#if menuOpen}
     <button

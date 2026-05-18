@@ -23,7 +23,7 @@
 
 <div class="flex h-[calc(100vh-4rem)] overflow-hidden min-h-0">
     <div class="flex flex-col w-full lg:w-1/3 min-h-0">
-        <div class="p-8 pb-0">
+        <div class="p-8 pb-2 border-b border-zinc-800/40">
         <input
             class="w-full rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
             bind:value={searchTerm}

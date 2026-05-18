@@ -4,9 +4,9 @@
 </script>
 
 <div class="h-[calc(100vh-4rem)] flex flex-col items-center justify-center gap-6">
-    <div class="flex flex-col justify-center items-center gap-8 border border-white/30 bg-white/30 rounded-lg shadow-lg p-8 backdrop-blur-md">
+    <div class="flex flex-col justify-center items-center gap-8 border border-white/30 bg-white/10 rounded-lg shadow-lg p-8 backdrop-blur-md">
         <Logo size="sm"/>
-        <p class="text-white/40 text-sm italic text-center max-w-xs leading-relaxed">
+        <p class="text-white/80 text-sm italic text-center max-w-xs leading-relaxed">
             "And so the Universe ended."
         </p>
     <div class="flex flex-col items-center gap-2">
