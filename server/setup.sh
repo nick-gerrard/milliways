@@ -6,7 +6,7 @@ set -e
 
 # Install dependencies
 apt-get update
-apt-get install -y nginx nodejs npm python3 python3-pip certbot python3-certbot-nginx
+apt-get install -y nginx nodejs python3 python3-pip certbot python3-certbot-nginx
 
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
