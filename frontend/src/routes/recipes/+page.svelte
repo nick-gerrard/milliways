@@ -21,15 +21,18 @@
     }
 </script>
 
-<div class="flex h-screen overflow-hidden">
-    <div class="flex flex-col gap-4 p-8 w-full lg:w-1/3 overflow-y-auto">
+<div class="flex h-screen overflow-hidden min-h-0">
+    <div class="flex flex-col w-full lg:w-1/3">
+        <div class="p-8 pb-0">
         <input
-            class="rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
+            class="w-full rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
             bind:value={searchTerm}
             placeholder="Search for recipes..."
             type="text"
         />
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-8">
+
+        </div>
+        <div class="p-8 w-full flex flex-col gap-8 overflow-y-auto min-h-0">
             {#each filteredRecipes as recipe}
                 <RecipeCard {recipe} onclick={() => selectRecipe(recipe.id)} />
             {/each}

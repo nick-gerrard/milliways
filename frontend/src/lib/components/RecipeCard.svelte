@@ -15,7 +15,7 @@
 
 <button
     onclick={onclick}
-    class="overflow-hidden w-full text-left border border-white/30 bg-white/10 backdrop-blur-md rounded-lg shadow-lg flex flex-col gap-4 p-8 hover:scale-105 transition-all duration-200"
+    class="shrink-0 overflow-hidden w-full text-left border border-white/30 bg-white/10 backdrop-blur-md rounded-lg shadow-lg flex flex-col gap-4 p-8 hover:scale-105 transition-all duration-200"
 >
   <div class="h-2 -mx-8 -mt-8 bg-gradient-to-r from-fuchsia-400 via-green-400 to-violet-400"></div>
     <h1 class="text-white text-3xl font-bold">{recipe.name}</h1>
