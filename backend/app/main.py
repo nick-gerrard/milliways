@@ -9,7 +9,6 @@ from .database import get_session
 from .models import Recipe, RecipeIngredient, User
 from .schemas import RecipeDetail
 from .config import FRONTEND_URL, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CALLBACK_URL
-from .deps import get_current_user
 
 app = FastAPI(title="Milliways API")
 
@@ -59,7 +58,6 @@ async def auth_callback(request: Request, session: Session = Depends(get_session
         session.refresh(user)
 
     request.session["user_id"] = user.id
-    print(f"[auth/callback] set user_id={user.id}, session={dict(request.session)}")
     return RedirectResponse(url=f"{FRONTEND_URL}/recipes")
 
 
@@ -72,7 +70,6 @@ def logout(request: Request):
 @app.get("/auth/me")
 def me(request: Request, session: Session = Depends(get_session)):
     user_id = request.session.get("user_id")
-    print(f"[auth/me] session keys: {list(request.session.keys())}, user_id: {user_id}, cookies: {request.cookies}")
     if not user_id:
         return None
     return session.get(User, user_id)
