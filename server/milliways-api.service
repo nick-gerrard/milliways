@@ -6,7 +6,8 @@ After=network.target
 User=www-data
 WorkingDirectory=/home/deploy/milliways/backend
 Environment=DATABASE_URL=sqlite:////home/deploy/milliways/backend/milliways.db
-ExecStart=/home/deploy/milliways/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8002
+Environment=FRONTEND_URL=https://milliways.nickgerrard.dev
+ExecStart=/home/deploy/milliways/backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8002
 Restart=always
 RestartSec=5
 
