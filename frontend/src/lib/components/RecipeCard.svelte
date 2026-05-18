@@ -15,11 +15,7 @@
 </script>
 
 <button {onclick} class="w-full text-left">
-  <GlassCard
-    accent
-    class="flex w-full shrink-0 flex-col gap-4 
-  transition-all duration-200 hover:scale-105"
-  >
+  <GlassCard accent class="w-full shrink-0 transition-all duration-200 hover:scale-105">
     <h1 class="text-3xl font-bold text-white">{recipe.name}</h1>
     <p class="text-sm text-white">{recipe.description}</p>
     <div class="mt-auto flex justify-center gap-4">
