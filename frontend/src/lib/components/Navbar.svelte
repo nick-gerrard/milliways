@@ -1,5 +1,8 @@
 <script lang="ts">
     import { page } from "$app/state";
+    import { PUBLIC_API_URL } from "$env/static/public";
+    import type { User } from "$lib/types";
+    import Logo from "$lib/components/Logo.svelte";
 
     interface NavLink {
         label: string;
@@ -12,6 +15,7 @@
 
     let { brand = "Milliways" }: Props = $props();
     let menuOpen = $state(false);
+    let user = $state<User | null>(null);
 
     const links: NavLink[] = [
         { label: "Home", href: "/" },
@@ -22,16 +26,20 @@
     function toggleMenu() {
         menuOpen = !menuOpen;
     }
+
+    async function fetchUser() {
+        const res = await fetch(`${PUBLIC_API_URL}/auth/me`, { credentials: "include" });
+        user = res.ok ? await res.json() : null;
+    }
+
+    fetchUser();
 </script>
 
 <nav
     class="h-16 sticky z-50 top-0 backdrop-blur-md border-b border-white/20 bg-white/10 flex gap-4 justify-between items-center"
 >
-    <a
-        class="text-3xl px-8 bg-gradient-to-r from-fuchsia-400 via-green-400 to-violet-400 text-transparent bg-clip-text inline-block"
-        href="/"
-    >
-        Milliways
+    <a href="/" class="px-8">
+        <Logo size="sm" />
     </a>
     <button
         class="md:hidden px-8 text-white text-2xl"
@@ -63,6 +71,18 @@
                 <a href={link.href}>{link.label}</a>
             </li>
         {/each}
+        <li>
+            {#if user}
+                <span class="text-white/60 text-sm mr-2">{user.name}</span>
+                <a href="{PUBLIC_API_URL}/auth/logout" class="px-4 py-2 rounded-full border border-white/20 text-white/70 text-sm hover:text-white transition-colors">
+                    Sign out
+                </a>
+            {:else}
+                <a href="{PUBLIC_API_URL}/auth/login" class="px-4 py-2 rounded-full bg-violet-600 text-white text-sm hover:bg-violet-500 transition-colors">
+                    Sign in with Google
+                </a>
+            {/if}
+        </li>
     </ul>
 </nav>
 {#if menuOpen}

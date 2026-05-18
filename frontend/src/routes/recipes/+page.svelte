@@ -21,8 +21,8 @@
     }
 </script>
 
-<div class="flex h-screen overflow-hidden min-h-0">
-    <div class="flex flex-col w-full lg:w-1/3">
+<div class="flex h-[calc(100vh-4rem)] overflow-hidden min-h-0">
+    <div class="flex flex-col w-full lg:w-1/3 min-h-0">
         <div class="p-8 pb-0">
         <input
             class="w-full rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
@@ -40,7 +40,7 @@
     </div>
 
     {#if selectedRecipe}
-        <div class="hidden lg:block lg:w-2/3 p-8 overflow-y-auto border-l border-white/20">
+        <div class="hidden lg:flex lg:flex-col lg:w-2/3 px-8 pt-8 pb-16 overflow-y-auto border-l border-white/20 min-h-0">
             <RecipeDetail recipe={selectedRecipe} />
         </div>
     {/if}

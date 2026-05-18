@@ -1,6 +1,7 @@
 <script lang="ts">
 	import "../app.css";
 	import Navbar from "$lib/components/Navbar.svelte";
+	import { page } from "$app/state";
 	let { children } = $props();
 </script>
 
@@ -20,7 +21,9 @@
       class="pointer-events-none fixed -bottom-32 -left-32 h-96 w-96 rounded-full bg-violet-800 opacity-20 blur-[100px]"
     ></div>
 	<!-- style="background: linear-gradient(135deg, #080010 0%, #1a0035 30%, #ff00aa33 50%, #00ff8833 60%, #0d001f 85%, #000008 100%)" -->
-<Navbar />
+{#if page.url.pathname !== "/login"}
+    <Navbar />
+{/if}
 
 <main class="w-full p-4">
     {@render children()}
