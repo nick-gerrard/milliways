@@ -27,6 +27,11 @@ backend/alembic/versions/__pycache__/
 uploads/
 *.pdf
 
+# Ingestion output
+data/pdfs/
+data/json/
+data/skipped.jsonl
+
 # OS
 .DS_Store
 Thumbs.db

@@ -25,7 +25,7 @@
 </script>
 
 <nav
-    class="h-16 sticky top-0 backdrop-blur-md border-b border-white/20 bg-white/10 flex gap-4 justify-between items-center"
+    class="h-16 sticky z-50 top-0 backdrop-blur-md border-b border-white/20 bg-white/10 flex gap-4 justify-between items-center"
 >
     <a
         class="text-3xl px-8 bg-gradient-to-r from-fuchsia-400 via-green-400 to-violet-400 text-transparent bg-clip-text inline-block"

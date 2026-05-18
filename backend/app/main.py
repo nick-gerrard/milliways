@@ -1,6 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlmodel import Session, select 
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
+from .database import get_session
+from .models import Recipe
 
 from .config import FRONTEND_URL, SESSION_SECRET
 
@@ -19,3 +22,7 @@ app.add_middleware(
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.get("/recipes")
+def get_recipes(session: Session = Depends(get_session)):
+    return session.exec(select(Recipe)).all()

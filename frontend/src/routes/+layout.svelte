@@ -10,4 +10,6 @@
 />
 <Navbar />
 
-{@render children()}
+<main class="w-full p-4">
+    {@render children()}
+</main>
