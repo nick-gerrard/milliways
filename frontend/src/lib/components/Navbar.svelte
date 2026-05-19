@@ -22,7 +22,10 @@
     const links: NavLink[] = [
         { label: "Home", href: "/" },
         { label: "Recipes", href: "/recipes" },
+        { label: "Plan", href: "/plan"},
+        { label: "Shop", href: "/shop"},
         { label: "About", href: "/about" },
+
     ];
 
     function toggleMenu() {

@@ -42,3 +42,9 @@ export interface RecipeDetail {
   steps: RecipeStep[];
   tags: { id: number; name: string }[];
 }
+
+export interface ShoppingItem {
+  quantity: number;
+  name: string;
+  unit: string;
+}

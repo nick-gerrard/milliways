@@ -1,10 +1,31 @@
 <script lang="ts">
-    import type { RecipeDetail } from "$lib/types";
+    import type { RecipeDetail, ShoppingItem, RecipeIngredient } from "$lib/types";
+    import Button from "./Button.svelte";
     let { recipe }: { recipe: RecipeDetail } = $props();
+
+    function addIngredients(list: Record<string, ShoppingItem>, ingredients: RecipeIngredient[]): Record<string, ShoppingItem> {
+        for (const ing of ingredients) {
+            const key = `${ing.unit}|${ing.ingredient.name}`;
+            if (list[key]) {
+                list[key].quantity += ing.quantity;
+            } else {
+                list[key] = {quantity: ing.quantity, name: ing.ingredient.name, unit: ing.unit};
+            }
+        }
+        return list
+    }
+
+    function updateShoppingList() {
+        const existing = JSON.parse(sessionStorage.getItem('shoppingList') ?? '{}');
+        const updated = addIngredients(existing, recipe.ingredients);
+        sessionStorage.setItem('shoppingList', JSON.stringify(updated));
+    }
+
 </script>
 
 <div class="flex flex-col gap-4 text-white">
     <h1 class="text-center text-3xl font-bold">{recipe.name}</h1>
+    <Button variant="primary" onclick={updateShoppingList}>Add to Shopping List</Button>
     {#if recipe.description}
         <p class="text-sm text-center text-white/70">{recipe.description}</p>
     {/if}
