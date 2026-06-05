@@ -9,7 +9,7 @@ export interface Recipe {
   name: string;
   description?: string;
   imageUrl?: string;
-  tags?: string[];
+  tags?: { id: number; name: string }[];
   prep_time_minutes: number;
   cook_time_minutes: number;
 }

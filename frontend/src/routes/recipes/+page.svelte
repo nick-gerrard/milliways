@@ -10,18 +10,22 @@
     let searchTerm = $state("");
     let selectedRecipe = $state<RecipeDetailType | null>(null);
     let totalRecipes = data.recipes.length;
+    let sort = $state<"az" | "za" | "newest">("az");
 
     function handleDelete() {
         selectedRecipe = null;
         invalidateAll();
     }
 
-    let filteredRecipes = $derived(
-        data.recipes.filter((r: Recipe) =>
+    let filteredRecipes = $derived.by(() => {
+        const filtered = data.recipes.filter((r: Recipe) =>
             r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            r.tags?.some(tag => tag.name.toLowerCase().includes(searchTerm.toLowerCase())),
-        ),
-    );
+            r.tags?.some((tag: { name: string }) => tag.name.toLowerCase().includes(searchTerm.toLowerCase())),
+        );
+        if (sort === "az") return filtered.sort((a: Recipe, b: Recipe) => a.name.localeCompare(b.name));
+        if (sort === "za") return filtered.sort((a: Recipe, b: Recipe) => b.name.localeCompare(a.name));
+        return filtered.sort((a: Recipe, b: Recipe) => b.id - a.id);
+    });
 
     async function selectRecipe(id: number) {
         const res = await fetch(`${PUBLIC_API_URL}/recipes/${id}`);
@@ -31,14 +35,24 @@
 
 <div class="flex h-[calc(100vh-4rem)] overflow-hidden min-h-0">
     <div class="flex flex-col w-full lg:w-1/3 min-h-0">
-        <div class="p-8 pb-2 border-b border-zinc-800/40 flex items-center gap-3">
-            <input
-                class="flex-1 rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
-                bind:value={searchTerm}
-                placeholder="Search from {totalRecipes} recipes..."
-                type="text"
-            />
-            <Button variant="primary" href="/recipes/add">+ Add</Button>
+        <div class="p-8 pb-4 border-b border-zinc-800/40 flex flex-col gap-3">
+            <div class="flex items-center gap-3">
+                <input
+                    class="flex-1 rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
+                    bind:value={searchTerm}
+                    placeholder="Search from {totalRecipes} recipes..."
+                    type="text"
+                />
+                <Button variant="primary" href="/recipes/add">+ Add</Button>
+            </div>
+            <div class="flex gap-2">
+                {#each [["az", "A–Z"], ["za", "Z–A"], ["newest", "Newest"]] as [val, label]}
+                    <button
+                        onclick={() => sort = val as typeof sort}
+                        class="rounded-full px-3 py-1 text-xs transition-colors {sort === val ? 'bg-violet-600 text-white' : 'bg-white/10 text-white/50 hover:text-white'}"
+                    >{label}</button>
+                {/each}
+            </div>
         </div>
         <div class="p-8 w-full flex flex-col gap-8 overflow-y-auto min-h-0">
             {#each filteredRecipes as recipe}

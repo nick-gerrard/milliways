@@ -67,6 +67,17 @@ class TagDetail(SQLModel):
     name: str
 
 
+class RecipeListItem(SQLModel):
+    id: int
+    name: str
+    description: str | None
+    servings: int
+    prep_time_minutes: int | None
+    cook_time_minutes: int | None
+    image_url: str | None
+    tags: list[TagDetail]
+
+
 class RecipeDetail(SQLModel):
     id: int
     name: str

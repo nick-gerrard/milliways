@@ -7,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from authlib.integrations.starlette_client import OAuth
 from .database import get_session
 from .models import Recipe, RecipeIngredient, RecipeStep, Tag, RecipeTag, Ingredient, User, UserRecipe
-from .schemas import RecipeDetail, RecipeCreate, RecipeUpdate
+from .schemas import RecipeDetail, RecipeListItem, RecipeCreate, RecipeUpdate
 from .config import FRONTEND_URL, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CALLBACK_URL, UPLOAD_SECRET
 
 app = FastAPI(title="Milliways API")
@@ -75,9 +75,10 @@ def me(request: Request, session: Session = Depends(get_session)):
     return session.get(User, user_id)
 
 
-@app.get("/recipes")
+@app.get("/recipes", response_model=list[RecipeListItem])
 def get_recipes(session: Session = Depends(get_session)):
-    return session.exec(select(Recipe)).all()
+    statement = select(Recipe).order_by(Recipe.name).options(selectinload(Recipe.tags))
+    return session.execute(statement).scalars().all()
 
 
 @app.get("/recipes/ingredients/all")
