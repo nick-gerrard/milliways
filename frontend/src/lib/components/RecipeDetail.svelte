@@ -39,6 +39,17 @@
     {#if recipe.description}
         <p class="text-sm text-white/70">{recipe.description}</p>
     {/if}
+
+    <div class="flex flex-wrap gap-2">
+        <span class="rounded-full bg-white/10 px-3 py-1 text-sm text-white">Serves {recipe.servings}</span>
+        {#if recipe.prep_time_minutes}
+            <span class="rounded-full bg-white/10 px-3 py-1 text-sm text-white">Prep: {recipe.prep_time_minutes} mins</span>
+        {/if}
+        {#if recipe.cook_time_minutes}
+            <span class="rounded-full bg-white/10 px-3 py-1 text-sm text-white">Cook: {recipe.cook_time_minutes} mins</span>
+        {/if}
+    </div>
+
     {#if recipe.tags?.length}
         <div class="flex flex-wrap gap-2">
             {#each recipe.tags as tag}
@@ -59,6 +70,16 @@
             </li>
         {/each}
     </ol>
+
+    {#if recipe.author || recipe.source_url}
+        <div class="mt-2 flex items-center gap-3 border-t border-white/10 pt-4 text-sm text-white/40">
+            {#if recipe.author}<span>By {recipe.author}</span>{/if}
+            {#if recipe.author && recipe.source_url}<span>·</span>{/if}
+            {#if recipe.source_url}
+                <a href={recipe.source_url} target="_blank" rel="noopener noreferrer" class="hover:text-white/70 underline">View original</a>
+            {/if}
+        </div>
+    {/if}
 </div>
 
 {#if toastVisible}

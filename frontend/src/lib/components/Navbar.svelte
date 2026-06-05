@@ -22,7 +22,6 @@
   const links: NavLink[] = [
     { label: "Home", href: "/" },
     { label: "Recipes", href: "/recipes" },
-    { label: "Plan", href: "/plan" },
     { label: "Shop", href: "/shop" },
     { label: "About", href: "/about" },
   ];
@@ -167,7 +166,7 @@
         </a>
       </li>
     {:else}
-      <Button href="{PUBLIC_API_URL}/auth/login" variant="primary" class="hidden md:block">Sign in with Google</Button>
+      <Button href="{PUBLIC_API_URL}/auth/login" variant="primary">Sign in with Google</Button>
     {/if}
   </ul>
 </div>
