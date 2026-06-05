@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { invalidateAll } from "$app/navigation";
     import { PUBLIC_API_URL } from "$env/static/public";
     import RecipeCard from "$lib/components/RecipeCard.svelte";
     import RecipeDetail from "$lib/components/RecipeDetail.svelte";
@@ -8,6 +9,12 @@
     let { data } = $props();
     let searchTerm = $state("");
     let selectedRecipe = $state<RecipeDetailType | null>(null);
+    let totalRecipes = data.recipes.length;
+
+    function handleDelete() {
+        selectedRecipe = null;
+        invalidateAll();
+    }
 
     let filteredRecipes = $derived(
         data.recipes.filter((r: Recipe) =>
@@ -28,7 +35,7 @@
             <input
                 class="flex-1 rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
                 bind:value={searchTerm}
-                placeholder="Search for recipes..."
+                placeholder="Search from {totalRecipes} recipes..."
                 type="text"
             />
             <Button variant="primary" href="/recipes/add">+ Add</Button>
@@ -42,7 +49,7 @@
 
     {#if selectedRecipe}
         <div class="hidden lg:flex lg:flex-col lg:w-2/3 px-8 pt-8 pb-16 overflow-y-auto border-l border-white/20 min-h-0">
-            <RecipeDetail recipe={selectedRecipe} />
+            <RecipeDetail recipe={selectedRecipe} ondelete={handleDelete} />
         </div>
     {/if}
   <div class="lg:hidden fixed bottom-0 left-0 right-0 h-4/5 z-50 bg-slate-900/95 backdrop-blur-md border-t border-white/20 rounded-t-2xl p-6 overflow-y-auto transition-transform duration-300"
@@ -50,7 +57,7 @@
     class:translate-y-0={!!selectedRecipe}>
       {#if selectedRecipe}
           <Button variant="ghost" onclick={() => selectedRecipe = null} class="mb-4 mt-4">✕ Close</Button>
-          <RecipeDetail recipe={selectedRecipe} />
+          <RecipeDetail recipe={selectedRecipe} ondelete={handleDelete} />
       {/if}
   </div>
 </div>

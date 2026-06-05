@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from authlib.integrations.starlette_client import OAuth
 from .database import get_session
-from .models import Recipe, RecipeIngredient, RecipeStep, Tag, RecipeTag, Ingredient, User
+from .models import Recipe, RecipeIngredient, RecipeStep, Tag, RecipeTag, Ingredient, User, UserRecipe
 from .schemas import RecipeDetail, RecipeCreate, RecipeUpdate
 from .config import FRONTEND_URL, SESSION_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, CALLBACK_URL, UPLOAD_SECRET
 
@@ -168,6 +168,31 @@ def edit_recipe_details(recipe_id: int, recipe: RecipeUpdate, request: Request, 
 
     session.commit()
     return {"id": recipe_id}
+
+@app.delete("/recipes/{recipe_id}")
+def delete_recipe(recipe_id: int, request: Request, session: Session = Depends(get_session)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Not Logged In")
+
+    db_recipe = session.get(Recipe, recipe_id)
+    if not db_recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    if db_recipe.user_id is not None and db_recipe.user_id != user_id:
+        raise HTTPException(status_code=403, detail="Forbidden")
+
+    for ri in session.exec(select(RecipeIngredient).where(RecipeIngredient.recipe_id == recipe_id)).all():
+        session.delete(ri)
+    for step in session.exec(select(RecipeStep).where(RecipeStep.recipe_id == recipe_id)).all():
+        session.delete(step)
+    for rt in session.exec(select(RecipeTag).where(RecipeTag.recipe_id == recipe_id)).all():
+        session.delete(rt)
+    for ur in session.exec(select(UserRecipe).where(UserRecipe.recipe_id == recipe_id)).all():
+        session.delete(ur)
+
+    session.delete(db_recipe)
+    session.commit()
+    return {"ok": True}
 
 @app.post("/recipes")
 def add_recipe(recipe: RecipeCreate, request: Request, session: Session = Depends(get_session)):

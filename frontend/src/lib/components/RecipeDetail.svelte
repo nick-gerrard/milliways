@@ -1,10 +1,12 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
+    import { PUBLIC_API_URL } from "$env/static/public";
     import type { RecipeDetail, ShoppingItem, RecipeIngredient } from "$lib/types";
     import Button from "./Button.svelte";
-    let { recipe }: { recipe: RecipeDetail } = $props();
+    let { recipe, ondelete }: { recipe: RecipeDetail; ondelete?: () => void } = $props();
 
     let toastVisible = $state(false);
+    let confirmingDelete = $state(false);
 
     function addIngredients(list: Record<string, ShoppingItem>, ingredients: RecipeIngredient[]): Record<string, ShoppingItem> {
         for (const ing of ingredients) {
@@ -16,6 +18,14 @@
             }
         }
         return list
+    }
+
+    async function handleDelete() {
+        const res = await fetch(`${PUBLIC_API_URL}/recipes/${recipe.id}`, {
+            method: "DELETE",
+            credentials: "include",
+        });
+        if (res.ok) ondelete?.();
     }
 
     function updateShoppingList() {
@@ -31,9 +41,16 @@
 <div class="flex flex-col gap-4 text-white">
     <div class="flex items-start justify-between gap-4">
         <h1 class="text-2xl font-bold">{recipe.name}</h1>
-        <div class="flex gap-2 shrink-0">
-            <Button variant="ghost" href="/recipes/{recipe.id}/edit">Edit</Button>
-            <Button variant="secondary" onclick={updateShoppingList}>+ Shopping List</Button>
+        <div class="flex items-center gap-2 shrink-0">
+            {#if confirmingDelete}
+                <span class="text-sm text-white/60">Delete this recipe?</span>
+                <Button variant="warning" onclick={handleDelete}>Yes</Button>
+                <Button variant="ghost" onclick={() => confirmingDelete = false}>Cancel</Button>
+            {:else}
+                <Button variant="ghost" onclick={() => confirmingDelete = true} class="text-red-400 hover:text-red-300">Delete</Button>
+                <Button variant="ghost" href="/recipes/{recipe.id}/edit">Edit</Button>
+                <Button variant="secondary" onclick={updateShoppingList}>+ Shopping List</Button>
+            {/if}
         </div>
     </div>
     {#if recipe.description}
