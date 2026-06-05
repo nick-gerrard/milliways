@@ -9,7 +9,7 @@
     let { data } = $props();
     let searchTerm = $state("");
     let selectedRecipe = $state<RecipeDetailType | null>(null);
-    let totalRecipes = data.recipes.length;
+    let totalRecipes = $derived(data.recipes.length);
     let sort = $state<"az" | "za" | "newest">("az");
 
     function handleDelete() {

@@ -26,6 +26,8 @@
   let newTag = $state("");
 
   let submitted = $state(false);
+  let saving = $state(false);
+  let saveError = $state("");
   let nameError = $derived(submitted && !name.trim());
   let servingsError = $derived(submitted && (!servings || servings < 1));
 
@@ -109,6 +111,8 @@
   async function handleSubmit() {
     submitted = true;
     if (!name.trim() || !servings || servings < 1) return;
+    saving = true;
+    saveError = "";
     const payload = {
       name,
       description: description || null,
@@ -130,6 +134,9 @@
     });
     if (res.ok) {
       goto("/recipes");
+    } else {
+      saveError = "Something went wrong — please try again.";
+      saving = false;
     }
   }
 </script>
@@ -275,7 +282,10 @@
       {/if}
     </div>
 
-    <Button variant="primary" onclick={handleSubmit} class="w-full mt-2">Save Recipe</Button>
+    {#if saveError}<p class="text-sm text-red-400">{saveError}</p>{/if}
+    <Button variant="primary" onclick={handleSubmit} disabled={saving} class="w-full mt-2">
+      {saving ? "Saving…" : "Save Recipe"}
+    </Button>
   </GlassCard>
 </div>
 

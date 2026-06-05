@@ -17,20 +17,20 @@
 <button {onclick} class="w-full text-left">
   <GlassCard accent class="w-full shrink-0 transition-all duration-200 hover:scale-105">
     <h1 class="text-3xl font-bold text-white">{recipe.name}</h1>
-    <p class="text-sm text-white">{recipe.description}</p>
+    {#if recipe.description}
+      <p class="text-sm text-white">{recipe.description}</p>
+    {/if}
     <div class="mt-auto flex justify-center gap-4">
-      <p
-        class="rounded-full bg-white/10 px-4 py-2 text-white
-  backdrop-blur-md"
-      >
-        Prep: {formatMinutes(recipe.prep_time_minutes)}
-      </p>
-      <p
-        class="rounded-full bg-white/10 px-4 py-2 text-white
-  backdrop-blur-md"
-      >
-        Cook: {formatMinutes(recipe.cook_time_minutes)}
-      </p>
+      {#if recipe.prep_time_minutes}
+        <p class="rounded-full bg-white/10 px-4 py-2 text-white backdrop-blur-md">
+          Prep: {formatMinutes(recipe.prep_time_minutes)}
+        </p>
+      {/if}
+      {#if recipe.cook_time_minutes}
+        <p class="rounded-full bg-white/10 px-4 py-2 text-white backdrop-blur-md">
+          Cook: {formatMinutes(recipe.cook_time_minutes)}
+        </p>
+      {/if}
     </div>
   </GlassCard>
 </button>
