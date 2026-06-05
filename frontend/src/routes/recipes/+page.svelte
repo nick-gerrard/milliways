@@ -24,14 +24,14 @@
 
 <div class="flex h-[calc(100vh-4rem)] overflow-hidden min-h-0">
     <div class="flex flex-col w-full lg:w-1/3 min-h-0">
-        <div class="p-8 pb-2 border-b border-zinc-800/40">
-        <input
-            class="w-full rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
-            bind:value={searchTerm}
-            placeholder="Search for recipes..."
-            type="text"
-        />
-
+        <div class="p-8 pb-2 border-b border-zinc-800/40 flex items-center gap-3">
+            <input
+                class="flex-1 rounded-lg shadow-lg border border-white/30 bg-white/10 p-2 text-white"
+                bind:value={searchTerm}
+                placeholder="Search for recipes..."
+                type="text"
+            />
+            <Button variant="primary" href="/recipes/add">+ Add</Button>
         </div>
         <div class="p-8 w-full flex flex-col gap-8 overflow-y-auto min-h-0">
             {#each filteredRecipes as recipe}
